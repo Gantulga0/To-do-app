@@ -1,0 +1,113 @@
+.app {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 377px;
+  padding: 24px 16px;
+  border-radius: 8px;
+  margin-inline: auto;
+  background-color: #fff;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.16);
+  display: flex;
+  flex-direction: column;
+}
+
+#header {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  margin-bottom: 20px;
+}
+
+.input {
+  margin-bottom: 20px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  column-gap: 6px;
+}
+
+#input {
+  outline: none;
+  font-size: 14px;
+  border-radius: 6px;
+  padding-inline: 16px;
+  border: 1px solid #e4e4e7;
+  width: 300px;
+}
+
+#add-button {
+  width: 59px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #f9f9f9;
+  border-radius: 6px;
+  padding-inline: 16px;
+  background-color: #3c82f6;
+}
+
+.todo-status {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  display: flex;
+  gap: 10px;
+  padding-bottom: 30px;
+  display: flex;
+}
+
+#todo-all {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+#todo-all:hover {
+  background-color: #3c82f6;
+  color: white;
+}
+
+#todo-active {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 12px;
+}
+#todo-active:hover {
+  background-color: #3c82f6;
+  color: white;
+}
+
+#todo-completed {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 12px;
+}
+#todo-completed:hover {
+  background-color: #3c82f6;
+  color: white;
+}
+.todo-list {
+  display: flex;
+  justify-content: center;
+  color: gray;
+}
