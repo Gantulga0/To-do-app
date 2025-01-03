@@ -65,12 +65,14 @@ body {
   padding: 0;
   font-size: 14px;
   display: flex;
+  margin-bottom: 10px;
   gap: 10px;
-  padding-bottom: 30px;
   display: flex;
 }
 
-#todo-all {
+.todo-status div {
+  background-color: #e5e7eb;
+  color: #363636;
   cursor: pointer;
   font-size: 12px;
   font-weight: 500;
@@ -78,36 +80,29 @@ body {
   padding: 12px;
 }
 
-#todo-all:hover {
+.todo-status .active {
   background-color: #3c82f6;
-  color: white;
+  color: #fff;
+  border-radius: 6px;
+  transition: ease-in-out;
+  transition-duration: 0.4s;
 }
 
-#todo-active {
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 500;
-  border-radius: 6px;
-  padding: 12px;
-}
-#todo-active:hover {
-  background-color: #3c82f6;
-  color: white;
-}
-
-#todo-completed {
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 500;
-  border-radius: 6px;
-  padding: 12px;
-}
-#todo-completed:hover {
-  background-color: #3c82f6;
-  color: white;
-}
-.todo-list {
+.task {
   display: flex;
-  justify-content: center;
-  color: gray;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 10px;
+  background-color: #e5e7eb3e;
+  border-radius: 6px;
+}
+
+.completed {
+  text-decoration: line-through;
+}
+
+.task:hover {
+  background-color: #e5e7eb;
+  transition: ease-in-out;
+  transition-duration: 0.3s;
 }

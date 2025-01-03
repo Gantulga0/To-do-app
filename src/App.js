@@ -2,12 +2,11 @@ import './App.css';
 import React, { useState } from 'react';
 
 function App() {
-  // State to hold all tasks and their status
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [filter, setFilter] = useState('all');
 
-  // Function to handle adding a task
+  //Task add hiih function
   const addTask = () => {
     if (inputValue.trim() === '') {
       alert('Please enter a task');
@@ -24,7 +23,7 @@ function App() {
     setInputValue('');
   };
 
-  // Function to toggle the completion status of a task
+  //Status uurcluh function
   const toggleTaskCompletion = (id) => {
     setTasks(
       tasks.map((task) =>
@@ -33,12 +32,12 @@ function App() {
     );
   };
 
-  // Function to delete a task
+  // Ustgah task
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  // Function to filter tasks based on the current filter
+  //Filterlej bui taskuudiig haruulah
   const filteredTasks = tasks.filter((task) => {
     if (filter === 'all') return true;
     if (filter === 'active') return !task.completed;
@@ -91,18 +90,39 @@ function App() {
               type="checkbox"
               checked={task.completed}
               onChange={() => toggleTaskCompletion(task.id)}
+              style={{ cursor: 'pointer', width: '20px', height: '20px' }}
             />
-            <span className={task.completed ? 'completed' : ''}>
+            <span
+              className={task.completed ? 'completed' : ''}
+              style={{ marginLeft: '10px' }}
+            >
               {task.text}
             </span>
             <button
-              className="delete-button"
               onClick={() => deleteTask(task.id)}
+              style={{
+                marginLeft: 'auto',
+                backgroundColor: '#fef2f2',
+                border: 'none',
+                color: '#ef4444',
+                borderRadius: '6px',
+                height: '30px',
+                cursor: 'pointer',
+              }}
             >
               Delete
             </button>
           </div>
         ))}
+      </div>
+      <div
+        className="summary"
+        style={{ display: tasks.length === 0 ? 'none' : '' }}
+      >
+        <p>
+          {tasks.length} of {tasks.filter((task) => task.completed).length} task
+          completed.
+        </p>
       </div>
     </div>
   );
