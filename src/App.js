@@ -1,12 +1,17 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Toggle } from './components/toggle';
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [filter, setFilter] = useState('all');
+  const [theme, setTheme] = useState('light');
 
-  //Task add hiih function
+  useEffect(() => {
+    document.body.setAttribute('data-theme', theme);
+  }, [theme]);
+
   const addTask = () => {
     if (inputValue.trim() === '') {
       alert('Please enter a task');
@@ -23,7 +28,6 @@ function App() {
     setInputValue('');
   };
 
-  //Status uurcluh function
   const toggleTaskCompletion = (id) => {
     setTasks(
       tasks.map((task) =>
@@ -32,12 +36,10 @@ function App() {
     );
   };
 
-  // Ustgah task
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  //Filterlej bui taskuudiig haruulah
   const filteredTasks = tasks.filter((task) => {
     if (filter === 'all') return true;
     if (filter === 'active') return !task.completed;
@@ -45,9 +47,23 @@ function App() {
     return true;
   });
 
+  const handleThemeChange = () => {
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
   return (
-    <div className="container">
-      <h1 id="header">To-Do List</h1>
+    <div className={`container ${theme}`}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginBottom: '20px',
+        }}
+      >
+        <h1 id="header">To-Do List</h1>
+        <Toggle isChecked={theme === 'dark'} handleChange={handleThemeChange} />
+      </div>
+
       <div className="input">
         <input
           type="text"
@@ -90,25 +106,16 @@ function App() {
               type="checkbox"
               checked={task.completed}
               onChange={() => toggleTaskCompletion(task.id)}
-              style={{ cursor: 'pointer', width: '20px', height: '20px' }}
             />
             <span
-              className={task.completed ? 'completed' : ''}
+              className={task.completed ? 'completed' : 'task-style'}
               style={{ marginLeft: '10px' }}
             >
               {task.text}
             </span>
             <button
+              className="delete-button"
               onClick={() => deleteTask(task.id)}
-              style={{
-                marginLeft: 'auto',
-                backgroundColor: '#fef2f2',
-                border: 'none',
-                color: '#ef4444',
-                borderRadius: '6px',
-                height: '30px',
-                cursor: 'pointer',
-              }}
             >
               Delete
             </button>
@@ -116,13 +123,9 @@ function App() {
         ))}
       </div>
       <div
+        id="no-task"
         style={{
           display: tasks.length === 0 ? 'flex' : 'none',
-          color: '#4b5563',
-          padding: '10px',
-          paddingTop: '20px',
-          justifyContent: 'center',
-          alignItems: 'center',
         }}
       >
         No tasks yet. Add one above!
@@ -131,7 +134,7 @@ function App() {
         className="summary"
         style={{ display: tasks.length === 0 ? 'none' : '' }}
       >
-        <p style={{ color: '#4b5563', borderTop: '1px solid #d1d5db' }}>
+        <p id="task-counter">
           {tasks.length} of {tasks.filter((task) => task.completed).length} task
           completed.
         </p>

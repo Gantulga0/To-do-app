@@ -1,11 +1,15 @@
 .app {
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--background-color);
 }
 
 body {
   display: flex;
   justify-content: center;
+  background-color: var(--background-color);
 }
 
 .container {
@@ -13,10 +17,11 @@ body {
   padding: 24px 16px;
   border-radius: 8px;
   margin-inline: auto;
-  background-color: #fff;
+  background-color: var(--background-color);
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.16);
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 #header {
@@ -25,11 +30,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #000;
+  color: var(--primary-text-color);
   font-size: 20px;
   font-weight: 600;
   line-height: 28px;
-  margin-bottom: 20px;
 }
 
 .input {
@@ -45,8 +49,10 @@ body {
   font-size: 14px;
   border-radius: 6px;
   padding-inline: 16px;
-  border: 1px solid #e4e4e7;
+  border: 1px solid var(--border-color);
   width: 300px;
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
 }
 
 #add-button {
@@ -54,10 +60,10 @@ body {
   border: none;
   cursor: pointer;
   font-size: 14px;
-  color: #f9f9f9;
+  color: var(--primary-text-color);
   border-radius: 6px;
   padding-inline: 16px;
-  background-color: #3c82f6;
+  background-color: var(--toggle-color);
 }
 
 .todo-status {
@@ -71,8 +77,8 @@ body {
 }
 
 .todo-status div {
-  background-color: #e5e7eb;
-  color: #363636;
+  background-color: var(--todo-status-background-color);
+  color: var(--todo-status-color);
   cursor: pointer;
   font-size: 12px;
   font-weight: 500;
@@ -81,8 +87,8 @@ body {
 }
 
 .todo-status .active {
-  background-color: #3c82f6;
-  color: #fff;
+  background-color: var(--toggle-color);
+  color: var(--secondaty-text-color);
   border-radius: 6px;
   transition: ease-in-out;
   transition-duration: 0.4s;
@@ -93,16 +99,21 @@ body {
   align-items: center;
   padding: 20px;
   margin-bottom: 10px;
-  background-color: #e5e7eb3e;
+  margin-top: 10px;
+  background-color: var(--task-fg-color);
   border-radius: 6px;
 }
 
 .completed {
   text-decoration: line-through;
+  color: var(--primary-text-color);
+}
+.task-style {
+  color: var(--primary-text-color);
 }
 
 .task:hover {
-  background-color: #e5e7eb;
+  background-color: var(--task-hover-color);
   transition: ease-in-out;
   transition-duration: 0.3s;
 }
@@ -113,4 +124,38 @@ body {
   align-items: center;
   margin-top: 20px;
   gap: 4px;
+}
+
+#no-task {
+  color: var(--footer-color);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px;
+  padding-top: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-button {
+  margin-left: auto;
+  background-color: #f9b3b3;
+  border: none;
+  color: #ef4444;
+  border-radius: 6px;
+  height: 30px;
+  cursor: pointer;
+}
+
+#task-counter {
+  color: var(--footer-color);
+  font-size: 14px;
+  font-weight: 500;
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+}
+
+#checkbox {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
 }
