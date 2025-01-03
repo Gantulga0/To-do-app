@@ -116,13 +116,34 @@ function App() {
         ))}
       </div>
       <div
+        style={{
+          display: tasks.length === 0 ? 'flex' : 'none',
+          color: '#4b5563',
+          padding: '10px',
+          paddingTop: '20px',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        No tasks yet. Add one above!
+      </div>
+      <div
         className="summary"
         style={{ display: tasks.length === 0 ? 'none' : '' }}
       >
-        <p>
+        <p style={{ color: '#4b5563', borderTop: '1px solid #d1d5db' }}>
           {tasks.length} of {tasks.filter((task) => task.completed).length} task
           completed.
         </p>
+      </div>
+      <div className="footer">
+        <div style={{ color: '#6b7280', fontSize: '12px' }}>Created By</div>
+        <a
+          href="https://www.youtube.com/watch?v=h49j9s4ajIc"
+          style={{ color: '#3b73ed', fontSize: '12px' }}
+        >
+          Gantulga
+        </a>
       </div>
     </div>
   );
