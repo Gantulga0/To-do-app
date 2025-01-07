@@ -24,7 +24,7 @@ function App() {
       id: tasks.length + 1,
       text: inputValue,
       completed: false,
-      createdAt: new Date().toLocaleString(),
+      createdAt: new Date().toLocaleDateString('en-CA'),
       completedAt: null,
     };
 
@@ -36,7 +36,7 @@ function App() {
       {
         taskDescription: newTask.text,
         status: 'added',
-        time: new Date().toLocaleString(),
+        time: new Date().toLocaleString('en-CA'),
       },
     ]);
   };
@@ -48,7 +48,9 @@ function App() {
           ? {
               ...task,
               completed: !task.completed,
-              completedAt: !task.completed ? new Date().toLocaleString() : null,
+              completedAt: !task.completed
+                ? new Date().toLocaleString('en-CA')
+                : null,
             }
           : task
       )
@@ -61,7 +63,11 @@ function App() {
       : 'marked as complete';
     setLog([
       ...log,
-      { taskDescription: task.text, status, time: new Date().toLocaleString() },
+      {
+        taskDescription: task.text,
+        status,
+        time: new Date().toLocaleString('en-CA'),
+      },
     ]);
   };
 
@@ -73,7 +79,7 @@ function App() {
       {
         taskDescription: task.text,
         status: 'deleted',
-        time: new Date().toLocaleString(),
+        time: new Date().toLocaleString('en-CA'),
       },
     ]);
   };
@@ -172,7 +178,7 @@ function App() {
         <div className="logs">
           {log.map((entry, index) => (
             <div key={index}>
-              <p>
+              <p id="log-text">
                 {entry.time}: {entry.taskDescription} - {entry.status}
               </p>
             </div>

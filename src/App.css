@@ -178,3 +178,7 @@ body {
   width: 20px;
   height: 20px;
 }
+
+#log-text {
+  color: var(--primary-text-color);
+}
