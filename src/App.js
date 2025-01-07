@@ -8,19 +8,7 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [filter, setFilter] = useState('all');
   const [theme, setTheme] = useState('light');
-
-  const log = [
-    {
-      taskDescription: '',
-      logs: [
-        {
-          status: '',
-          time: '',
-        },
-      ],
-      id: tasks.length + 1,
-    },
-  ];
+  const [log, setLog] = useState([]);
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
@@ -36,28 +24,65 @@ function App() {
       id: tasks.length + 1,
       text: inputValue,
       completed: false,
+      createdAt: new Date().toLocaleString(),
+      completedAt: null,
     };
 
     setTasks([...tasks, newTask]);
     setInputValue('');
+
+    setLog([
+      ...log,
+      {
+        taskDescription: newTask.text,
+        status: 'added',
+        time: new Date().toLocaleString(),
+      },
+    ]);
   };
 
   const toggleTaskCompletion = (id) => {
     setTasks(
       tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
+        task.id === id
+          ? {
+              ...task,
+              completed: !task.completed,
+              completedAt: !task.completed ? new Date().toLocaleString() : null,
+            }
+          : task
       )
     );
+
+    const task = tasks.find((task) => task.id === id);
+
+    const status = task.completed
+      ? 'marked as incomplete'
+      : 'marked as complete';
+    setLog([
+      ...log,
+      { taskDescription: task.text, status, time: new Date().toLocaleString() },
+    ]);
   };
 
   const deleteTask = (id) => {
+    const task = tasks.find((task) => task.id === id);
     setTasks(tasks.filter((task) => task.id !== id));
+    setLog([
+      ...log,
+      {
+        taskDescription: task.text,
+        status: 'deleted',
+        time: new Date().toLocaleString(),
+      },
+    ]);
   };
 
   const filteredTasks = tasks.filter((task) => {
     if (filter === 'all') return true;
     if (filter === 'active') return !task.completed;
     if (filter === 'completed') return task.completed;
+    if (filter === 'logs') return false;
     return true;
   });
 
@@ -135,59 +160,77 @@ function App() {
         >
           Completed
         </div>
-        <div id="date" onClick={() => setFilter('all')}>
-          Log
+        <div
+          id="todo-logs"
+          className={filter === 'logs' ? 'active' : ''}
+          onClick={() => setFilter('logs')}
+        >
+          Logs
         </div>
       </div>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="tasks">
-          {(provided) => (
-            <div
-              id="todo-list"
-              className="todo-list"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {filteredTasks.map((task, index) => (
-                <Draggable
-                  key={task.id}
-                  draggableId={task.id.toString()}
-                  index={index}
-                >
-                  {(provided) => (
-                    <div
-                      className="task"
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <input
-                        type="checkbox"
-                        id="checkbox"
-                        checked={task.completed}
-                        onChange={() => toggleTaskCompletion(task.id)}
-                      />
-                      <span
-                        className={task.completed ? 'completed' : 'task-style'}
-                        style={{ marginLeft: '10px' }}
-                      >
-                        {task.text}
-                      </span>
-                      <button
-                        className="delete-button"
-                        onClick={() => deleteTask(task.id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
+      {filter === 'logs' ? (
+        <div className="logs">
+          {log.map((entry, index) => (
+            <div key={index}>
+              <p>
+                {entry.time}: {entry.taskDescription} - {entry.status}
+              </p>
             </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+          ))}
+        </div>
+      ) : (
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="tasks">
+            {(provided) => (
+              <div
+                id="todo-list"
+                className="todo-list"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {filteredTasks.map((task, index) => (
+                  <Draggable
+                    key={task.id}
+                    draggableId={task.id.toString()}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <div
+                        className="task"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <input
+                          type="checkbox"
+                          id="checkbox"
+                          checked={task.completed}
+                          onChange={() => toggleTaskCompletion(task.id)}
+                        />
+                        <span
+                          className={
+                            task.completed ? 'completed' : 'task-style'
+                          }
+                          style={{ marginLeft: '10px' }}
+                        >
+                          {task.text}
+                        </span>
+                        <button
+                          className="delete-button"
+                          onClick={() => deleteTask(task.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      )}
       <div
         id="no-task"
         style={{
