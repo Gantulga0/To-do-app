@@ -1,12 +1,26 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import { Toggle } from './components/toggle';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [filter, setFilter] = useState('all');
   const [theme, setTheme] = useState('light');
+
+  const log = [
+    {
+      taskDescription: '',
+      logs: [
+        {
+          status: '',
+          time: '',
+        },
+      ],
+      id: tasks.length + 1,
+    },
+  ];
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
@@ -49,6 +63,29 @@ function App() {
 
   const handleThemeChange = () => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter') {
+        addTask();
+      }
+    };
+
+    document.body.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.removeEventListener('keydown', handleKeyDown);
+    };
+  });
+
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const reorderedTasks = Array.from(tasks);
+    const [removed] = reorderedTasks.splice(result.source.index, 1);
+    reorderedTasks.splice(result.destination.index, 0, removed);
+
+    setTasks(reorderedTasks);
   };
 
   return (
@@ -98,30 +135,59 @@ function App() {
         >
           Completed
         </div>
+        <div id="date" onClick={() => setFilter('all')}>
+          Log
+        </div>
       </div>
-      <div id="todo-list" className="todo-list">
-        {filteredTasks.map((task) => (
-          <div key={task.id} className="task">
-            <input
-              type="checkbox"
-              checked={task.completed}
-              onChange={() => toggleTaskCompletion(task.id)}
-            />
-            <span
-              className={task.completed ? 'completed' : 'task-style'}
-              style={{ marginLeft: '10px' }}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="tasks">
+          {(provided) => (
+            <div
+              id="todo-list"
+              className="todo-list"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
             >
-              {task.text}
-            </span>
-            <button
-              className="delete-button"
-              onClick={() => deleteTask(task.id)}
-            >
-              Delete
-            </button>
-          </div>
-        ))}
-      </div>
+              {filteredTasks.map((task, index) => (
+                <Draggable
+                  key={task.id}
+                  draggableId={task.id.toString()}
+                  index={index}
+                >
+                  {(provided) => (
+                    <div
+                      className="task"
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <input
+                        type="checkbox"
+                        id="checkbox"
+                        checked={task.completed}
+                        onChange={() => toggleTaskCompletion(task.id)}
+                      />
+                      <span
+                        className={task.completed ? 'completed' : 'task-style'}
+                        style={{ marginLeft: '10px' }}
+                      >
+                        {task.text}
+                      </span>
+                      <button
+                        className="delete-button"
+                        onClick={() => deleteTask(task.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
       <div
         id="no-task"
         style={{
