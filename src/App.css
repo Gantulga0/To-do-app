@@ -179,6 +179,14 @@ body {
   height: 20px;
 }
 
+.logs {
+  overflow: hidden;
+}
+
 #log-text {
+  color: var(--primary-text-color);
+}
+
+#log-head {
   color: var(--primary-text-color);
 }

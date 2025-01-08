@@ -118,6 +118,13 @@ function App() {
 
     setTasks(reorderedTasks);
   };
+  const groupedLogs = log.reduce((acc, entry) => {
+    if (!acc[entry.taskDescription]) {
+      acc[entry.taskDescription] = [];
+    }
+    acc[entry.taskDescription].push(entry);
+    return acc;
+  }, {});
 
   return (
     <div className={`container ${theme}`}>
@@ -174,13 +181,17 @@ function App() {
           Logs
         </div>
       </div>
+
       {filter === 'logs' ? (
         <div className="logs">
-          {log.map((entry, index) => (
-            <div key={index}>
-              <p id="log-text">
-                {entry.time}: {entry.taskDescription} - {entry.status}
-              </p>
+          {Object.keys(groupedLogs).map((task) => (
+            <div>
+              <h3 id='log-head'>{task}</h3>
+              {groupedLogs[task].map((entry) => (
+                <p id="log-text">
+                  {entry.time}: {entry.status}
+                </p>
+              ))}
             </div>
           ))}
         </div>
