@@ -186,7 +186,7 @@ function App() {
         <div className="logs">
           {Object.keys(groupedLogs).map((task) => (
             <div>
-              <h3 id='log-head'>{task}</h3>
+              <h3 id="log-head">{task}</h3>
               {groupedLogs[task].map((entry) => (
                 <p id="log-text">
                   {entry.time}: {entry.status}
@@ -199,50 +199,52 @@ function App() {
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="tasks">
             {(provided) => (
-              <div
-                id="todo-list"
-                className="todo-list"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {filteredTasks.map((task, index) => (
-                  <Draggable
-                    key={task.id}
-                    draggableId={task.id.toString()}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <div
-                        className="task"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <input
-                          type="checkbox"
-                          id="checkbox"
-                          checked={task.completed}
-                          onChange={() => toggleTaskCompletion(task.id)}
-                        />
-                        <span
-                          className={
-                            task.completed ? 'completed' : 'task-style'
-                          }
-                          style={{ marginLeft: '10px' }}
+              <div className="todo-main">
+                <div
+                  id="todo-list"
+                  className="todo-list"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {filteredTasks.map((task, index) => (
+                    <Draggable
+                      key={task.id}
+                      draggableId={task.id.toString()}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <div
+                          className="task"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
                         >
-                          {task.text}
-                        </span>
-                        <button
-                          className="delete-button"
-                          onClick={() => deleteTask(task.id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
+                          <input
+                            type="checkbox"
+                            id="checkbox"
+                            checked={task.completed}
+                            onChange={() => toggleTaskCompletion(task.id)}
+                          />
+                          <span
+                            className={
+                              task.completed ? 'completed' : 'task-style'
+                            }
+                            style={{ marginLeft: '10px' }}
+                          >
+                            {task.text}
+                          </span>
+                          <button
+                            className="delete-button"
+                            onClick={() => deleteTask(task.id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
               </div>
             )}
           </Droppable>

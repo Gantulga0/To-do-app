@@ -190,3 +190,8 @@ body {
 #log-head {
   color: var(--primary-text-color);
 }
+
+.todo-main {
+  overflow: scroll;
+  max-height: 250px;
+}
