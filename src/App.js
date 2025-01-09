@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Toggle } from './components/toggle';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Status from './components/Status';
+import Button from './components/Button';
+import NoTask from './components/NoTask';
+import Log from './components/Log';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -119,13 +122,6 @@ function App() {
 
     setTasks(reorderedTasks);
   };
-  const groupedLogs = log.reduce((acc, entry) => {
-    if (!acc[entry.taskDescription]) {
-      acc[entry.taskDescription] = [];
-    }
-    acc[entry.taskDescription].push(entry);
-    return acc;
-  }, {});
 
   return (
     <div className={`container ${theme}`}>
@@ -148,25 +144,12 @@ function App() {
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Add a new task ...."
         />
-        <button id="add-button" onClick={addTask}>
-          Add
-        </button>
+        <Button text="Add" onClick={() => addTask(tasks)} />
       </div>
       <Status setFilter={setFilter} />
 
       {filter === 'logs' ? (
-        <div className="logs">
-          {Object.keys(groupedLogs).map((task) => (
-            <div>
-              <h3 id="log-head">{task}</h3>
-              {groupedLogs[task].map((entry) => (
-                <p id="log-text">
-                  {entry.time}: {entry.status}
-                </p>
-              ))}
-            </div>
-          ))}
-        </div>
+        <Log log={log} />
       ) : (
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="tasks">
@@ -205,12 +188,10 @@ function App() {
                           >
                             {task.text}
                           </span>
-                          <button
-                            className="delete-button"
+                          <Button
+                            text="Delete"
                             onClick={() => deleteTask(task.id)}
-                          >
-                            Delete
-                          </button>
+                          />
                         </div>
                       )}
                     </Draggable>
@@ -222,14 +203,11 @@ function App() {
           </Droppable>
         </DragDropContext>
       )}
-      <div
-        id="no-task"
+      <NoTask
         style={{
           display: tasks.length === 0 ? 'flex' : 'none',
         }}
-      >
-        No tasks yet. Add one above!
-      </div>
+      />
       <div
         className="summary"
         style={{ display: tasks.length === 0 ? 'none' : '' }}
