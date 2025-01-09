@@ -2,6 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import { Toggle } from './components/toggle';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import Status from './components/Status';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -151,36 +152,7 @@ function App() {
           Add
         </button>
       </div>
-      <div className="todo-status">
-        <div
-          id="todo-all"
-          className={filter === 'all' ? 'active' : ''}
-          onClick={() => setFilter('all')}
-        >
-          All
-        </div>
-        <div
-          id="todo-active"
-          className={filter === 'active' ? 'active' : ''}
-          onClick={() => setFilter('active')}
-        >
-          Active
-        </div>
-        <div
-          id="todo-completed"
-          className={filter === 'completed' ? 'active' : ''}
-          onClick={() => setFilter('completed')}
-        >
-          Completed
-        </div>
-        <div
-          id="todo-logs"
-          className={filter === 'logs' ? 'active' : ''}
-          onClick={() => setFilter('logs')}
-        >
-          Logs
-        </div>
-      </div>
+      <Status setFilter={setFilter} />
 
       {filter === 'logs' ? (
         <div className="logs">
