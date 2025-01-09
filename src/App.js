@@ -63,7 +63,7 @@ function App() {
     const task = tasks.find((task) => task.id === id);
 
     const status = task.completed
-      ? 'marked as incomplete'
+      ? 'marked as active'
       : 'marked as complete';
     setLog([
       ...log,
